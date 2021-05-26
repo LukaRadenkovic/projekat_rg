@@ -151,6 +151,8 @@ int main() {
     Shader skyboxShader("resources/shaders/6.1.skybox.vs", "resources/shaders/6.1.skybox.fs");
     Shader transpShader("resources/shaders/transparentobj.vs", "resources/shaders/transparentobj.fs");
 
+    //lightcube
+    Shader lightCubeShader("resources/shaders/light_cube.vs", "resources/shaders/light_cube.fs");
     glEnable(GL_DEPTH_TEST);
     // TODO adv
     Shader advShader("resources/shaders/advanced_lighting.vs", "resources/shaders/advanced_lighting.fs");
@@ -236,34 +238,96 @@ int main() {
             1,2,3
     };
 
+    float CubeVertices[] = {
+            // positions          // normals           // texture coords
+            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+            0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
+            0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+            0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+            -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+
+            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+            0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+            0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+            0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+            -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+
+            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+            -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+            -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+            -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+            -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+            0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+            0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+            0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+            0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+            0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+            0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+            -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+            0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+            0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+            0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+            -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+            -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+
+            -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+            0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
+            0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+            0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+            -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+            -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
+    };
+
 
         // TODO adv
     float planeVertices[] = {
 
-//            0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-//            0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-//            -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
 //
-//            -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f,  // top left
-//            0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-//            -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-
-//            0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-//            0.0f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-//            -2.0f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+//            10.0f, -0.5f,  10.0f,  0.0f, 1.0f, 0.0f,  10.0f,  0.0f,
+//            -10.0f, -0.5f,  10.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f,
+//            -10.0f, -0.5f, -10.0f,  0.0f, 1.0f, 0.0f,   0.0f, 10.0f,
 //
-//            -2.0f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f,  // top left
-//            0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-//            -2.0f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+//            10.0f, -0.5f,  10.0f,  0.0f, 1.0f, 0.0f,  10.0f,  0.0f,
+//            -10.0f, -0.5f, -10.0f,  0.0f, 1.0f, 0.0f,   0.0f, 10.0f,
+//            10.0f, -0.5f, -10.0f,  0.0f, 1.0f, 0.0f,  10.0f, 10.0f
 
-            2.5f, -0.5f,  2.5f,  0.0f, 1.0f, 0.0f,  2.5f,  0.0f,
-            -2.5f, -0.5f,  2.5f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f,
-            -2.5f, -0.5f, -2.5f,  0.0f, 1.0f, 0.0f,   0.0f, 2.5f,
 
-            2.5f, -0.5f,  2.5f,  0.0f, 1.0f, 0.0f,  2.5f,  0.0f,
-            -2.5f, -0.5f, -2.5f,  0.0f, 1.0f, 0.0f,   0.0f, 2.5f,
-            2.5f, -0.5f, -2.5f,  0.0f, 1.0f, 0.0f,  2.5f, 2.5f
+            5.0f, -0.25f,  5.0f,  0.0f, 1.0f, 0.0f,  10.0f,  0.0f,
+            -5.0f, -0.25f,  5.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f,
+            -5.0f, -0.25f, -5.0f,  0.0f, 1.0f, 0.0f,   0.0f, 10.0f,
+
+            5.0f, -0.25f,  5.0f,  0.0f, 1.0f, 0.0f,  10.0f,  0.0f,
+            -5.0f, -0.25f, -5.0f,  0.0f, 1.0f, 0.0f,   0.0f, 10.0f,
+            5.0f, -0.25f, -5.0f,  0.0f, 1.0f, 0.0f,  10.0f, 10.0f
+
     };
+
+
+    unsigned int lightCubeVAO, lightCubeVBO;
+    glGenVertexArrays(1, &lightCubeVAO);
+    glBindVertexArray(lightCubeVAO);
+
+    glGenBuffers(1, &lightCubeVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, lightCubeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(CubeVertices), CubeVertices, GL_STATIC_DRAW);
+
+    glBindVertexArray(lightCubeVAO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+//    glBindBuffer(GL_ARRAY_BUFFER, lightCubeVBO);
+    // note that we update the lamp's position attribute's stride to reflect the updated buffer data
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 
     // TODO plane VAO adv
     unsigned int planeVAO, planeVBO;
@@ -333,17 +397,23 @@ int main() {
     unsigned int transparentTravaTexture = loadTexture(FileSystem::getPath("resources/textures/grass.png").c_str());
     unsigned int peskirTexture = loadTexture(FileSystem::getPath("resources/textures/pexels-sharon-mccutcheon-3711238.jpg").c_str());
 
+    //lightcube svetlo
+    glm::vec3 pointLightPositions[] = {
+            glm::vec3(-3.32,0.54,6.8),
+            glm::vec3(-1.0f, 3.0f, 4.0f)
+    };
 
 
     vector<glm::vec3> vegetation
             {
                     //    glm::vec3(-3.0f, 0.0f, 3.5f)
-                    glm::vec3(-3.75f, 0.0f, 3.5f),
-                    glm::vec3(-3.25f, 0.0f, 3.5f),
-                    glm::vec3(-2.75f, 0.0f, 3.5f),
-                    glm::vec3(-3.75f, -0.30f, 3.5f),
-                    glm::vec3(-3.25f, -0.30f, 3.5f),
-                    glm::vec3(-2.75f, -0.30f, 3.5f)
+//                    glm::vec3(-3.75f, 0.0f, 3.5f),
+                    glm::vec3(10.0f,-8.5f,3.5f),
+                    glm::vec3(10.0f,-7.0f,3.5f),
+                    glm::vec3(10.0f,-5.5f,3.5f),
+                    glm::vec3(10.0f,-8.5f,6.5f),
+                    glm::vec3(10.0f,-7.0f,6.5f),
+                    glm::vec3(10.0f,-5.5f,6.5f),
             };
 
     stbi_set_flip_vertically_on_load(false);
@@ -403,7 +473,7 @@ int main() {
         // pointLight1
 
 //        camera(glm::vec3(-2.32,0.54,5.87)
-        pointLight.position = glm::vec3(-2.32,0.54,5.87);
+        pointLight.position = glm::vec3(-2.32,0.54,6.8);
 
         ourShader.setVec3("pointLight.position", pointLight.position);
         ourShader.setVec3("pointLight.ambient", pointLight.ambient);
@@ -418,7 +488,8 @@ int main() {
         // pointLight2
         //glm::vec3(-2.5f,-1.2f,10.5f)
         //pointLight.position = glm::vec3(8.0f, -5.0f, 30.0f);
-        pointLight.position = glm::vec3(8.0f, -5.0f, 30.0f);
+        //svetlo
+        pointLight.position = glm::vec3(-1.0f, 3.0f, 4.0f);
 
 
         ourShader.setVec3("pointLight1.position", pointLight.position);
@@ -430,6 +501,7 @@ int main() {
         ourShader.setFloat("pointLight1.quadratic", pointLight.quadratic);
         ourShader.setVec3("viewPosition", programState->camera.Position);
         ourShader.setFloat("material.shininess", 32.0f);
+
 
         //spotlight:
         ourShader.setVec3("spotLight.position", programState->camera.Position);
@@ -448,6 +520,8 @@ int main() {
         glm::mat4 view = programState->camera.GetViewMatrix();
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
+
+
 
 
         // rendering loaded models
@@ -497,6 +571,21 @@ int main() {
         glBindVertexArray(peskirVAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+        lightCubeShader.use();
+        lightCubeShader.setMat4("projection", projection);
+        lightCubeShader.setMat4("view", view);
+
+        // we now draw as many light bulbs as we have point lights.
+        glBindVertexArray(lightCubeVAO);
+        for (unsigned int i = 0; i < 2; i++)
+        {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, pointLightPositions[i]);
+            model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+            lightCubeShader.setMat4("model", model);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
         // TODO adv
         advShader.use();
         glm::mat4 projectionAdv = glm::perspective(glm::radians(programState->camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -533,8 +622,8 @@ int main() {
             {
                 model = glm::mat4(1.0f);
                 model = glm::translate(model, vegetation[i]);
-                model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-
+                model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
+                model = glm::rotate(model,glm::radians(90.0f),glm::vec3(0.0,1.0,0.0));
                 transpShader.setMat4("model", model);
                 transpShader.setMat4("projection", projection);
                 transpShader.setMat4("view", view);

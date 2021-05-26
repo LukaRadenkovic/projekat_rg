@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/smajli/Documents/projekatt/cmake-build-debug/configuration -I/home/smajli/Documents/projekatt/include
+CXX_INCLUDES = -I/home/smajli/Documents/projekat_rg/cmake-build-debug/configuration -I/home/smajli/Documents/projekat_rg/include
 
 CXX_FLAGS = -Wall -Wextra -Wno-unused-variable -Wno-unused-parameter -O3 -g -std=gnu++14
 

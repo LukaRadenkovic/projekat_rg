@@ -1,4 +1,4 @@
-/snap/clion/151/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/smajli/Documents/projekatt
+/snap/clion/151/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/smajli/Documents/projekat_rg
 -- The C compiler identification is GNU 10.2.0
 -- The CXX compiler identification is GNU 10.2.0
 -- Detecting C compiler ABI info
@@ -14,4 +14,4 @@
 -- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so   
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/smajli/Documents/projekatt/cmake-build-debug
+-- Build files have been written to: /home/smajli/Documents/projekat_rg/cmake-build-debug
